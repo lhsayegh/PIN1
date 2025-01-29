@@ -16,13 +16,6 @@ pipeline {
              '''  
         }
     }
-  
-  
-    stage('Run tests') {
-      steps {
-        sh "docker run testapp npm test"
-      }
-    }
 
     stage('Run tests') {
       steps {
