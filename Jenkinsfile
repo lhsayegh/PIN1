@@ -23,10 +23,21 @@ pipeline {
         sh "docker run testapp npm test"
       }
     }
+
+    stage('Run tests') {
+      steps {
+        sh "docker run testapp npm test"
+      }
+    }
+
+  stage('Run Registry') {
+      steps {
+        sh "docker run -d -p 5000:5000 --name registry registry:2.7"
+      }
+    }
    stage('Deploy Image') {
       steps{
         sh '''
-        docker run -v /var/run/docker.sock:/var/run/docker.sock -d -p 5000:5000 --name registry registry:2.7
         docker tag testapp 127.0.0.1:5000/mguazzardo/testapp
         docker push 127.0.0.1:5000/mguazzardo/testapp   
         '''
@@ -35,7 +46,7 @@ pipeline {
   stage('Scan Image') {
       steps{
         sh '''
-        sh "docker run  -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image --severity=critical 127.0.0.1:5000/mguazzardo/testapp"
+        sh "docker run aquasec/trivy image --severity=critical 127.0.0.1:5000/mguazzardo/testapp"
         '''
         }
       }
