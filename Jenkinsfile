@@ -45,7 +45,7 @@ pipeline {
   stage('Scan Image') {
       steps{
         sh '''
-        docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image --severity=critical 127.0.0.1:5000/mguazzardo/testapp/latest
+        docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image --severity=CRITICAL 127.0.0.1:5000/mguazzardo/testapp/latest
         '''
         }
       }
