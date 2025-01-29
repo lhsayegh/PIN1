@@ -25,10 +25,12 @@ pipeline {
 
   stage('Run Registry') {
       steps {
-        try {
-          sh "docker run -d -p 5000:5000 --name registry registry:2.7"
-        }catch(err){
-          echo "Failed: ${err}"
+        script {
+            try {
+              sh "docker run -d -p 5000:5000 --name registry registry:2.7"
+            }catch(err){
+              echo "Failed: ${err}"
+            }
         }
       }
     }
@@ -49,12 +51,15 @@ pipeline {
       }
    stage('Stop Image') {
       steps{
-          try{
-            sh '''
-            sh "docker stop   registry"
-            '''
-          }catch(err){
-            echo "Failed: ${err}"
+          script {
+          
+              try{
+                sh '''
+                sh "docker stop   registry"
+                '''
+              }catch(err){
+                echo "Failed: ${err}"
+              }
           }
         }
       }
