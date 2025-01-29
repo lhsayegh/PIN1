@@ -32,7 +32,6 @@ pipeline {
         '''
         }
       }
-    }
   stage('Scan Image') {
       steps{
         sh '''
