@@ -49,9 +49,13 @@ pipeline {
       }
    stage('Stop Image') {
       steps{
-        sh '''
-        sh "docker stop   registry"
-        '''
+          try{
+            sh '''
+            sh "docker stop   registry"
+            '''
+          }catch(err){
+            echo "Failed: ${err}"
+          }
         }
       }
     }
