@@ -26,7 +26,7 @@ pipeline {
    stage('Deploy Image') {
       steps{
         sh '''
-        docker run -d -p 5000:5000 --name registry registry:2.7
+        docker run -v /var/run/docker.sock:/var/run/docker.sock -d -p 5000:5000 --name registry registry:2.7
         docker tag testapp 127.0.0.1:5000/mguazzardo/testapp
         docker push 127.0.0.1:5000/mguazzardo/testapp   
         '''
@@ -36,6 +36,13 @@ pipeline {
       steps{
         sh '''
         sh "docker run  -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image --severity=critical 127.0.0.1:5000/mguazzardo/testapp"
+        '''
+        }
+      }
+   stage('Stop Image') {
+      steps{
+        sh '''
+        sh "docker stop   registry"
         '''
         }
       }
