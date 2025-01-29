@@ -25,7 +25,11 @@ pipeline {
 
   stage('Run Registry') {
       steps {
-        sh "docker run -d -p 5000:5000 --name registry registry:2.7"
+        try {
+          sh "docker run -d -p 5000:5000 --name registry registry:2.7"
+        catch(err){
+          echo "Failed: ${err}"
+        }
       }
     }
    stage('Deploy Image') {
