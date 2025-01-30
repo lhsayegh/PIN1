@@ -55,7 +55,7 @@ pipeline {
           
               try{
                 sh '''
-                sh "docker stop   registry"
+                docker stop   registry
                 '''
               }catch(err){
                 echo "Failed: ${err}"
